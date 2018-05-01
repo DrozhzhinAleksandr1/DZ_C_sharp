@@ -115,8 +115,12 @@ namespace MyCollections
             }
             else
             {
-                _head = _head._prev = new ListItem(val, null, _head);
+                _head = _head._prev = new ListItem(val, null, _head);                
                 ++_counter;
+                if (_counter == 2)
+                {
+                    _tail._prev = _head;
+                }
             }
         }
         /// <summary>
@@ -132,8 +136,12 @@ namespace MyCollections
             }
             else
             {
-                _tail = _tail._next = new ListItem(val, null, _head);
+                _tail = _tail._next = new ListItem(val, _tail, null);
                 ++_counter;
+                if (_counter == 2)
+                {
+                    _head._next = _tail;
+                }
             }
         }
         /// <summary>
@@ -237,24 +245,27 @@ namespace MyCollections
             }
             // делаем итем для цыкла
             ListItem item = _head;
+            int i = 0;
             while (item._next != null)
             {
+                
                 // ищим нужный 
                 if (val.Equals(item._next._value))
                 {
                     break;
                 }
+                ++i;
                 item = item._next;
             }
             // если цыкл закончился и не нашли
             if (item == null) return false;
             // если нашли, переставляем ссылку итема на следующий
+            if(i == _counter - 1)
+            {
+                _tail = _tail._prev;
 
-            int indexRemovedItem = this.IndexOf(item._next._value);            
-            ListItem nextItem = this.GetItem(indexRemovedItem + 1); 
-            ListItem prevItem = this.GetItem(indexRemovedItem - 1);
-            nextItem._prev = prevItem;
-            prevItem._next = nextItem;
+                return true;
+            }
 
             --_counter;
             return true;
@@ -272,6 +283,11 @@ namespace MyCollections
             {
                 _head = _head._next;
                 --_counter;
+                return;
+            }
+            if (index == _counter - 1)
+            {
+                _tail = _tail._prev;
                 return;
             }
             // делаем итем для цыкла

@@ -19,7 +19,7 @@ namespace DZ_CalculatorWPF
 
         private double int1;
         private double int2;
-        private double int3;
+        private double result;
         private string calcOperator = "";
         /// <summary>
         /// clear text
@@ -31,7 +31,7 @@ namespace DZ_CalculatorWPF
             textBox1.Text = "0";
             int1 = 0;
             int2 = 0;
-            int3 = 0;
+            result = 0;
             calcOperator = "";
         }
         /// <summary>
@@ -59,28 +59,32 @@ namespace DZ_CalculatorWPF
         /// </summary>
         private void Plus()
         {
-            int3 = int1 + int2;
+            result = int1 + int2;
         }
         /// <summary>
         /// do work with operator -
         /// </summary>
         private void Minus()
         {
-            int3 = int1 - int2;
+            result = int1 - int2;
         }
         /// <summary>
         /// do work with operator *
         /// </summary>
         private void Multiply()
         {
-            int3 = int1 * int2;
+            result = int1 * int2;
         }
         /// <summary>
         /// do work with operator /
         /// </summary>
         private void Divide()
         {
-            int3 = int1 / int2;
+            if (int2==0)
+            {
+                return;
+            }
+            result = int1 / int2;
         }
         /// <summary>
         /// do work with operator =
@@ -89,7 +93,6 @@ namespace DZ_CalculatorWPF
         {
             if(
                 int1 !=0 &&
-                textBox1.Text != "0" &&
                 textBox1.Text != "+" &&
                 textBox1.Text != "-" &&
                 textBox1.Text != "*" &&
@@ -97,9 +100,35 @@ namespace DZ_CalculatorWPF
                 calcOperator != ""
             )
             {
-                PressOperator(sender, e);
+                double.TryParse(textBox1.Text, out int2);
+                switch (calcOperator)
+                {
+                    case "+":
+                        Plus();
+                        break;
+                    case "-":
+                        Minus();
+                        break;
+                    case "*":
+                        Multiply();
+                        break;
+                    case "/":
+                        Divide();
+                        break;
+                }
                 calcOperator = "";
+                textBox1.Text = "" + result;
+                int1 = 0;
+                int2 = 0;
+                result = 0;
+            }
+            else
+            {
                 textBox1.Text = "" + int1;
+                int1 = 0;
+                int2 = 0;
+                result = 0;
+                calcOperator = "";
             }
         }
         /// <summary>
@@ -119,10 +148,6 @@ namespace DZ_CalculatorWPF
             {
                 Button btn = (Button)sender;
                 string btnText = btn.Text;
-                if (btnText == "=")
-                {
-                    btnText = calcOperator;
-                }
                 if(int1 == 0)
                 {
                     double.TryParse(textBox1.Text, out int1);
@@ -130,11 +155,10 @@ namespace DZ_CalculatorWPF
                     calcOperator = btnText;
                     textBox1.Text += btnText;
                 }
-                else if (int1 != 0 && int2 == 0)
+                else
                 {
                     double.TryParse(textBox1.Text, out int2);
                     textBox1.Text = "";
-                    calcOperator = btnText;
                     textBox1.Text += btnText;
 
                     switch (calcOperator)
@@ -152,13 +176,47 @@ namespace DZ_CalculatorWPF
                             Divide();
                             break;
                     }
-                    int1 = int3;
+                    textBox1.Text = btnText;
+                    int1 = result;
                     int2 = 0;
-                    int3 = 0;
+                    calcOperator = btnText;
 
                 }
 
             }
+        }
+        /// <summary>
+        /// add dot to number
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void PressDot(object sender = null, EventArgs e = null)
+        {
+            if(
+                textBox1.Text != "+" &&
+                textBox1.Text != "-" &&
+                textBox1.Text != "*" &&
+                textBox1.Text != "/"
+            )
+            {
+                bool presentDot = false;
+                foreach(char symb in textBox1.Text)
+                {
+                    if (symb == ',')
+                    {
+                        presentDot = true;
+                    }
+                }
+                if (presentDot)
+                {
+                    return;
+                }
+                else
+                {
+                    textBox1.Text += ',';
+                }
+            }
+
         }
 
     }

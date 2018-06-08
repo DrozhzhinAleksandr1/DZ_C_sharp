@@ -55,12 +55,19 @@ namespace MyWorkAtTheLesson
             }
             return list;
         }
-        //public static int DishId()
-        //{
-        //    int id;
-            
-        //    return id;
-        //}
+
+        public static int DishId(string nameDish)
+        {
+            int id;
+            SQLiteCommand CMD = DB.CreateCommand();
+            CMD.CommandText = "SELECT id FROM Dishes WHERE name = @name;";
+            CMD.Parameters.Add("@name", System.Data.DbType.String).Value = nameDish;
+            SQLiteDataReader SQL = CMD.ExecuteReader();
+            SQL.Read();
+            id = (int)SQL[0];
+
+            return id;
+        }
         public static void InsertRecipe(string recipe, int idDish)
         {
             SQLiteCommand CMD = DB.CreateCommand();

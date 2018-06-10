@@ -50,6 +50,18 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="AddDishForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="AddDishForm.Designer.cs">
+      <DependentUpon>AddDishForm.cs</DependentUpon>
+    </Compile>
+    <Compile Include="DishInfoForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="DishInfoForm.Designer.cs">
+      <DependentUpon>DishInfoForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="Menu.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -59,6 +71,12 @@
     <Compile Include="MyDb.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="AddDishForm.resx">
+      <DependentUpon>AddDishForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="DishInfoForm.resx">
+      <DependentUpon>DishInfoForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Menu.resx">
       <DependentUpon>Menu.cs</DependentUpon>
     </EmbeddedResource>

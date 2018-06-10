@@ -18,23 +18,34 @@ namespace MyWorkAtTheLesson
             InitializeComponent();
             MyDb.Go();
         }
-
-
         private void MenuClosed(object sender, FormClosedEventArgs e)
         {
             MyDb.End();
         }
-
-        private void buttonAddDish_Click(object sender, EventArgs e)
-        {
-            MyDb.InsertDish(textBox1.Text, 0);
-        }
+        
         private void btnShowDish_Click(object sender, EventArgs e)
         {
             listBox1.Items.Clear();
             foreach (var item in MyDb.ShowAllDish())
             {
                 listBox1.Items.Add(item);
+            }
+        }
+
+        private void buttonAddMenu_Click(object sender, EventArgs e)
+        {
+            AddDishForm form = new AddDishForm();
+            form.ShowDialog();
+        }
+        //List<Tuple<string, int, string>>
+        private void myListBox_Click(object sender, EventArgs e)
+        {
+            ListBox lb = sender as ListBox;
+            if (lb != null)
+            {
+                if (lb.SelectedItem == null) return;
+                DishInfoForm form = new DishInfoForm(lb.SelectedItem.ToString());
+                form.ShowDialog();
             }
         }
     }
